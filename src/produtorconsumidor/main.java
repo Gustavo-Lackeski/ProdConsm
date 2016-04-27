@@ -9,30 +9,37 @@ import java.util.logging.Logger;
 public class main {
 
     public static void main(String[] args) {
-        Reader r1, r2;
+        Reader r1, r2, r3;
         Writer w;
+        char x = 0;
         Buffer b = new Buffer();
-        r1 = new Reader(b);
-        r2 = new Reader(b);
-        w = new Writer("1.txt", b);      
+        r1 = new Reader("r1", b, x);
+        r2 = new Reader("r2", b, x);        
+        r3 = new Reader("r3", b, x);
+        w = new Writer("1.txt", b);           
+        w.start();
         r1.start();
         r2.start();
-        w.start();
+        r3.start();
     }
     
 }
 class Reader extends Thread{
+    String name;
     Buffer b;
-    public void run(){
+    char x;
+    public void run(){        
         char x;
         x = b.get();
         while (x != '\32'){
-          System.out.println(x);
+          System.out.println(name + x);
           x = b.get();
         }
     }
-    Reader(Buffer b){
+    Reader(String name, Buffer b, char x){
         this.b = b;
+        this.name = name;
+        this.x = x;
     }
 }
 class Writer extends Thread {
